@@ -1,0 +1,75 @@
+{"entries":
+  [
+    {
+      "author": "patient",
+      "date": "2018-01-04",
+      "time": "18:00",
+      "id": "List-6",
+      "entries": {
+
+        "headache": {
+          "date": "2018-01-04",
+          "time": "18:00",
+          "severity": "4"
+        },
+        "triggers": [
+          {
+            "name": "Increased stress",
+            "date": "2018-01-04",
+            "time": "18:00"
+          }
+        ],
+        "medications": [
+          {
+            "name": "Sumatriptan 50 mg oral tablet",
+            "date": "2018-01-04",
+            "time": "18:00"
+          },
+          {
+            "name": "Ibuprofen 200 mg oral tablet",
+            "date": "2018-01-04",
+            "time": "18:00"
+          }
+        ]
+      }
+    },
+    {
+      "author": "related person",
+      "date": "2018-01-04",
+      "time": "20:00",
+      "id": "List-7",
+      "cfid": "cf-1519598197540",
+      "entries": {
+
+        "headache": {
+          "date": "2018-01-04",
+          "time": "20:00",
+          "severity": "7"
+        }
+      }
+    },
+    {
+      "author": "related person",
+      "date": "2018-01-06",
+      "time": "19:00",
+      "id": "List-13",
+      "cfid": "cf-1519603388462",
+      "entries": {
+
+        "headache": {
+          "date": "2018-01-06",
+          "time": "19:00",
+          "severity": "6"
+        },
+        "medications": [
+          {
+            "name": "Metoclopramide hydrochloride 10 mg oral tablet",
+            "date": "2018-01-06",
+            "time": "19:00"
+          }
+        ]
+      }
+    }
+
+  ]
+}
