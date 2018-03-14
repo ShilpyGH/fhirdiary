@@ -1,0 +1,15 @@
+#user-name {
+  font-weight: bold;
+  text-align: right;
+  padding-right: 5px;
+  /* width: 20%; */
+}
+
+#nav-buttons {
+  text-align: right;
+  padding-right: 5px;
+  /* width: 4 */
+}
+
+.header {
+}

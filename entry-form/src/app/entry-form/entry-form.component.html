@@ -1,0 +1,122 @@
+<div class="container">
+  <h1>New Entry</h1>
+  <form (ngSubmit)="onSubmit()" #entryForm="ngForm">
+    <!-- DIAGNOSTIC:
+    {{diagnostic}} -->
+    <div class="report">
+
+      <h3>Entry In Progress</h3>
+      <!-- Display all the variables that have been created -->
+          <!-- TODO: give each new entry it's own template or something -->
+      <h4 class="entryHeader">Headache:</h4>
+      <div *ngIf="hasHeadache()">
+        <ul>
+          <li>
+            <span class="badge">Severity: {{model.entryFields['headache']['severity']}}
+                Date: {{model.entryFields['headache']['date'] + ' ' + model.entryFields['headache']['time']}}
+            </span>
+            <button type="button" name="button" (click)="removeHeadache()">Remove</button>
+          </li>
+        </ul>
+      </div>
+      <h4 class="entryHeader">Triggers:</h4>
+      <div>
+        <ul>
+          <li  *ngFor="let entry of model.entryFields['triggers']; index as i"
+                name="currentTriggers">
+            <span class="badge" >{{entry.name}} {{entry.date}} {{entry.time}}</span>
+            <button type="button" name="button" (click)="removeTrigger(i)">Remove</button>
+          </li>
+
+        </ul>
+      </div>
+
+      <h4 class="entryHeader">Medications:</h4>
+      <div>
+        <ul>
+          <li  *ngFor="let entry of model.entryFields['medications']; index as i"
+                name="currentMeds">
+            <span class="badge" >{{entry.name}} {{entry.date}} {{entry.time}}</span>
+            <button type="button" name="button" (click)="removeMedication(i)">Remove</button>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+
+
+
+    <h2>Headache</h2>
+    <div class="form-group">
+      <label for="headacheDate">Date: </label>
+      <input type="date" class="form-control" id="headacheDate" name="headacheDate"
+        [(ngModel)]="newHeadache.date"
+        #spy>
+      <label for="headacheTime">Time:</label>
+      <input type="time" name="headacheTime" value=""
+        [(ngModel)]="newHeadache.time">
+        <br>
+        <label for="severity">Severity: </label>
+        <select class="" name="severity" [(ngModel)]="newHeadache.severity">
+           <option *ngFor="let number of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">{{number}}</option>
+        </select>
+      <button (click)="addNewHeadache()" type="button" name="button">Enter</button>
+    </div>
+
+    <br>
+    <h2>Triggers</h2>
+    <div class="form-group">
+      <br>
+      <!-- Field for new Trigger -->
+      <div class="" name="newTrigger">
+        <select class="" name="trigger"
+          [(ngModel)]="newTrigger.name">
+          <option *ngFor="let trig of TRIGGER_VALUES; "
+            [value]="trig"
+            >{{trig}}</option>
+        </select>
+        <input type="date" name="trigDate" value=""
+          [ngModel]="newTrigger.date | date:'yyyy-MM-dd'"
+          (ngModelChange)="newTrigger.date = $event">
+        <input type="time" name="trigTime" value=""
+        [ngModel]="newTrigger.time"
+        >
+        <button type="button" name="addTrigger" (click)="addNewTrigger()">Enter</button>
+      </div>
+    </div>
+
+
+    <!-- TODO: fix the medications -->
+    <h2>Medications</h2>
+    <div class="form-group">
+      <br>
+      <!-- Field for new Trigger -->
+      <div class="" name="newMedication">
+        <select class="" name="medication"
+          [(ngModel)]="newMedication.name">
+          <option *ngFor="let med of MEDICATION_VALUES; "
+            [value]="med"
+            >{{med}}</option>
+        </select>
+        <input type="date" name="medDate" value=""
+          [ngModel]="newMedication.date | date:'yyyy-MM-dd'"
+          (ngModelChange)="newMedication.date = $event">
+        <input type="time" name="medTime" value=""
+        [ngModel]="newMedication.time"
+        >
+        <button type="button" name="addMedication" (click)="addNewMedication()">Enter</button>
+      </div>
+    </div>
+
+    <h2>Comments</h2>
+    <div class="form-group">
+      <textarea id="comments" rows="8" cols="80" placeholder="Tell us going what's going on."
+        name="comments" [(ngModel)]="model.entryFields.comments"></textarea>
+    </div>
+
+    <button type="submit" name="btn btn-success"
+        [disabled]="!entryForm.form.valid">Submit</button>
+
+  </form>
+
+</div>

@@ -1,0 +1,36 @@
+{
+  "author": "Mrs. Julia's Mom",
+  "date": "2018-02-8",
+  "time": "10:06",
+  "id": "Entry-1",
+  "entries": {
+    "headache": {
+      "date": "2018-08-07",
+      "severity": "6",
+      "time": "22:06",
+    },
+    "medications": [
+      {
+        "date": "2018-02-6",
+        "name": "Ibuprofen 200mg",
+        "idx": 0,
+        "time": "10:06"
+    }
+    ],
+    "triggers": [
+      {
+        "date": "2018-02-8",
+        "idx": 0,
+        "name": "Lack of Sleep",
+        "time": "10:06"
+      },
+      {
+        "date": "2018-02-06",
+        "idx": 1,
+        "name": "Light",
+        "time": "10:07"
+      }
+
+    ]
+  }
+}
