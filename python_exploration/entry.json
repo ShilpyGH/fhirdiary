@@ -4,11 +4,11 @@
   "time": "10:06",
   "id": "Entry-1",
   "entries": {
-    "headache": {
+    "headache": [{
       "date": "2018-08-07",
       "severity": "6",
       "time": "22:06"
-    },
+    }],
     "medications": [
       {
         "date": "2018-02-6",

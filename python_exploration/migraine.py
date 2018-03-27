@@ -136,3 +136,169 @@ def display_medication_list(patient_name, server):
     med_display.sort()
     for i, med in enumerate(med_display):
         print('{}.  {}'.format(i+1, med))
+
+
+
+# Code for creating new resources
+def create_fhir_list(entry):
+    # 1. Transform Headache into a Condition
+    # Let's transform our entry into a new dictionary
+    entry_dict = {}
+
+    # Add an id
+    id_num = random.choice(range(1000000)) # Does this matter?
+    entry_dict['id'] = 'cf-{}'.format(id_num)
+    dt = '{}T{}:00.000Z'.format(entry['date'], entry['time'])
+    entry_dict['date'] = dt
+
+
+    # Add these other attributes, some of which I don't fully understand
+    id_num = random.choice(range(10000))
+
+    entry_dict.update(
+        {'identifier': [{'value': 'List-{}'.format(id_num)}],
+         'meta': {'lastUpdated': dt, 'versionId': '1'},
+         'mode': 'snapshot',
+         'resourceType': 'List',
+         'status': 'current',
+         'text': {'div': '<div xmlns="http://www.w3.org/1999/xhtml"><a name="mm"></a></div>',
+          'status': 'generated'}}
+    )
+
+    # Now create the conditions and observations
+
+    # Add the subject
+    author = entry['author']
+    author_id = USER_IDS[author]
+    if USER_INFO[author] == 'patient':
+        subject_id = {
+           'reference': 'Patient/{}'.format((USER_IDS[author]))
+        }
+    else:
+       subject_id = {
+           'reference': 'Patient/{}'.format((USER_IDS[USER_RELATS[author]['patient']]))
+        }
+
+
+    # A list of all new resources, including our List
+    resources = []
+    # References to other resources in our List
+    entry_refs = []
+
+    # Create new resources from the entry items
+    # Start with headache
+    headache_entry = entry['entries']['headache'][0]
+    new_resource = create_condition(headache_entry, 'headache', author_id, subject_id)
+    resources.append(new_resource)
+    entry_refs.append({'item': {'reference': '{}/{}'.format(
+            new_resource.as_json()['resourceType'], new_resource.as_json()['id'])
+    }})
+
+    # Now pain severity
+    new_resource = create_pain_severity(headache_entry, author_id, subject_id)
+    resources.append(new_resource)
+    entry_refs.append({'item': {'reference': '{}/{}'.format(
+            new_resource.as_json()['resourceType'], new_resource.as_json()['id'])
+    }})
+
+    # Now triggers
+    for trigger_entry in entry['entries']['triggers']:
+
+        new_resource = create_condition(trigger_entry, 'trigger', author_id, subject_id)
+        resources.append(new_resource)
+        entry_refs.append(
+            {'item': {'reference': '{}/{}'.format(
+            new_resource.as_json()['resourceType'], new_resource.as_json()['id'])
+                                   }})
+
+    # TODO: Medications
+
+
+    # Add references to our other resources
+    entry_dict['entry'] = entry_refs
+
+    # Create a new List resource
+    fhir_list = List(entry_dict)
+    resources.append(fhir_list)
+    return resources
+
+
+def create_condition(entry, entry_type, author_id, subject_id):
+    cond_dict = {}
+
+    if author_id == subject_id: # This means it's a patient doing the asserting
+        author_type = 'Patient'
+    else:
+        author_type = 'RelatedPerson'
+    cond_dict['asserter'] = {'reference': '{}/{}'.format(author_type, author_id)}
+    cond_dict['subject'] = {'reference': 'Patient/{}'.format(subject_id)}
+
+    cond_dict['clinicalStatus'] = 'active'
+
+    # Add coding
+    code_dict = {'system': 'http://snomed.info/sct'}
+    if entry_type == 'trigger':
+        code_dict['code'] = TRIGGER_CODES[entry['name']]
+        code_dict['display'] = entry['name']
+    elif entry_type == 'headache':
+        code_dict['code'] = HEADACHE_CODE
+        code_dict['display'] = 'Headache'
+
+
+    cond_dict['code'] = {'coding': [code_dict]}
+
+    dt = '{}T{}:00.000Z'.format(entry['date'], entry['time'])
+    cond_dict['onsetDateTime'] = dt
+
+    cond_dict['resourceType'] = 'Condition'
+
+    id_num = random.choice(range(10000))
+    cond_dict['id'] = 'cf-{}'.format(id_num)
+
+    cond_dict['identifier'] = [{'value': '{}-{}'.format(entry_type, id_num)}]
+
+    cond_dict['text'] = {
+        'div': '<div xmlns="http://www.w3.org/1999/xhtml"><a name="mm"></a></div>',
+        'status': 'generated'
+    }
+    cond_dict['verificationStatus']: 'confirmed'
+
+    trig = Condition(cond_dict)
+    return trig
+
+
+def create_pain_severity(entry, author_id, subject_id):
+    obs_dict = {}
+
+    # Add an id
+    id_num = random.choice(range(1000000)) # Does this range matter?
+    obs_dict['id'] = 'cf-{}'.format(id_num)
+
+    # Required arguments
+    obs_dict['status'] = 'active'
+    obs_dict['code'] =  {'coding': [{'code': 'LA25253-8', 'display': 'Pain severity 0-10',
+                         'system': 'http://loinc.org'}]}
+    obs_dict
+
+
+    # Instead of 'asserter', this resource has 'performer'
+    # 'performer': [{'reference': 'Patient/cf-1519578984350'}],
+
+    if author_id == subject_id: # This means it's a patient doing the asserting
+        author_type = 'Patient'
+    else:
+        author_type = 'RelatedPerson'
+
+    obs_dict['performer'] = [{'reference': '{}/{}'.format(author_type, author_id)}]
+    obs_dict['subject'] = {'reference': 'Patient/{}'.format(subject_id)}
+
+
+    # Set the effectiveDateTime
+    # Same as the other one
+    dt = '{}T{}:00.000Z'.format(entry['date'], entry['time'])
+    obs_dict['effectiveDateTime'] = dt
+
+    #coding': [{'code': 'LA25253-8', 'display': 'Pain severity 0-10', 'system': 'http://loinc.org'}]},
+    obs_dict['valueQuantity'] = {'value':  int(entry['severity'])}
+    obs = Observation(obs_dict)
+    return obs
