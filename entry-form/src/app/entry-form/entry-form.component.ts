@@ -45,7 +45,7 @@ export class EntryFormComponent implements OnInit {
   }
 
   hasHeadache() {
-    return this.model.entryFields.headache != null;
+    return this.model.entryFields.headache.length > 0;
   }
 
   getTriggerValues() {
@@ -55,11 +55,11 @@ export class EntryFormComponent implements OnInit {
   addNewHeadache() {
     // Copy the object that I've been called 'newHeadache'
     let newHeadache = Object.assign({},  this.newHeadache);
-    this.model.entryFields.headache = newHeadache;
+    this.model.entryFields.headache = [newHeadache];
   }
 
   removeHeadache() {
-    this.model.entryFields.headache = null;
+    this.model.entryFields.headache = [];
   }
 
 

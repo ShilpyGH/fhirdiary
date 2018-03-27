@@ -12,8 +12,8 @@
       <div *ngIf="hasHeadache()">
         <ul>
           <li>
-            <span class="badge">Severity: {{model.entryFields['headache']['severity']}}
-                Date: {{model.entryFields['headache']['date'] + ' ' + model.entryFields['headache']['time']}}
+            <span class="badge">Severity: {{model.entryFields['headache'][0]['severity']}}
+                Date: {{model.entryFields['headache'][0]['date'] + ' ' + model.entryFields['headache'][0]['time']}}
             </span>
             <button type="button" name="button" (click)="removeHeadache()">Remove</button>
           </li>

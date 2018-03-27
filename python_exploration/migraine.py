@@ -1,31 +1,24 @@
+from datetime import datetime
+import random
+from dateutil.relativedelta import relativedelta
+now = datetime.now()
+from collections import Counter
+
+import matplotlib.pyplot as plt
+
 # Import modules and classes for working with FHIR resources
 from fhirclient import client
+import json
 from fhirclient.models.relatedperson import RelatedPerson
 from fhirclient.models.patient import Patient
 from fhirclient.models.condition import Condition
 from fhirclient.models.observation import Observation
 from fhirclient.models.medicationadministration import MedicationAdministration
 from fhirclient.models.medicationrequest import MedicationRequest
-
-import matplotlib.pyplot as plt
-
-
-from datetime import datetime
-from dateutil.relativedelta import relativedelta
-now = datetime.now()
-from collections import Counter
+from fhirclient.models.list import List
 
 
-USER_IDS = {'Julie Margaret Doe': 'cf-1519578984350',
-           'Jane Doe': 'cf-1519579101695'}
-
-
-TRIGGER_CODES = {
-    '130989002': 'Sleep deprivation',
-    '23085004': 'Increased stress',
-    '90128006': 'Photosensitivity',
-}
-
+from migraine_data import *
 
 def get_user(username, usertype, server):
     if usertype == 'patient':
@@ -100,7 +93,7 @@ def plot_pain_levels(patient_name, server):
 
 def get_triggers(patient_name, server):
     triggers = []
-    for trig_code in TRIGGER_CODES.keys():
+    for trig_code in TRIGGER_CODES.values():
         search = Condition.where({
                             "subject": 'Patient/{}'.format(
                                 USER_IDS[patient_name]),

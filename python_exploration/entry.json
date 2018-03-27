@@ -1,5 +1,5 @@
 {
-  "author": "Mrs. Julia's Mom",
+  "author": "Jane Doe",
   "date": "2018-02-8",
   "time": "10:06",
   "id": "Entry-1",
@@ -21,13 +21,13 @@
       {
         "date": "2018-02-8",
         "idx": "0",
-        "name": "Lack of Sleep",
+        "name": "Sleep deprivation",
         "time": "10:06"
       },
       {
         "date": "2018-02-06",
         "idx": "1",
-        "name": "Light",
+        "name": "Photosensitivity",
         "time": "10:07"
       }
 

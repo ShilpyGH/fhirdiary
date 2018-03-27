@@ -74,7 +74,7 @@ class Entry extends BaseEntryField {
     this.entryFields = {
                       // TODO: author should be set some other way
                       'author': "Mrs. Julia's Mom",
-                      'headache': null, // TODO: change this to null
+                      'headache': [], 
                       'medications': [],
                       'triggers': [],
                       'comments': ''
