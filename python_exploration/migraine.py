@@ -124,7 +124,7 @@ def get_active_medications(patient_name, server):
     search = MedicationRequest.where({'subject': 'Patient/{}'.format(
                                 USER_IDS[patient_name]),
                                    'status': 'active'})
-    med_requests = search.perform_resources(smart.server)
+    med_requests = search.perform_resources(server)
     return med_requests
 
 

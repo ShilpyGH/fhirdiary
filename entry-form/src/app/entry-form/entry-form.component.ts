@@ -13,8 +13,8 @@ import { Entry, MedicationEntry, TriggerEntry,  HeadacheEntry } from '../entry';
 export class EntryFormComponent implements OnInit {
 
   // Hardcoded values for triggers and meds
-  TRIGGER_VALUES = ['Air Quality', 'Lack of Sleep',
-              'Food', 'Light'];
+  TRIGGER_VALUES = ['Increased stress', 'Sleep deprivation',
+              'Photosensitivity'];
   MEDICATION_VALUES = ['Ibuprofen 200mg', 'Tylenol 100mg'];
 
 
@@ -30,7 +30,7 @@ export class EntryFormComponent implements OnInit {
     this.submitted = false;
     // Entries in progress
     this.newHeadache = new HeadacheEntry();
-    this.newTrigger = new TriggerEntry("Air Quality");
+    this.newTrigger = new TriggerEntry("Increased stress");
     this.newMedication = new MedicationEntry("Ibuprofen 200mg")
    }
 
