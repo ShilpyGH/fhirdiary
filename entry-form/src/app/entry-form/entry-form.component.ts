@@ -55,11 +55,11 @@ export class EntryFormComponent implements OnInit {
   addNewHeadache() {
     // Copy the object that I've been called 'newHeadache'
     let newHeadache = Object.assign({},  this.newHeadache);
-    this.model.entryFields.headache = [newHeadache];
+    this.model.entryFields.headache.push(newHeadache);
   }
 
   removeHeadache() {
-    this.model.entryFields.headache = [];
+    this.model.entryFields['headache'].splice(0, 1);
   }
 
 

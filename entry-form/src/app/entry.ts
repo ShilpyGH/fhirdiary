@@ -74,7 +74,7 @@ class Entry extends BaseEntryField {
     this.entryFields = {
                       // TODO: author should be set some other way
                       'author': "Mrs. Julia's Mom",
-                      'headache': [], 
+                      'headache': [],
                       'medications': [],
                       'triggers': [],
                       'comments': ''
@@ -120,7 +120,7 @@ class TriggerEntry extends BaseEntryField {
 
 interface EntryField {
   author: string;
-  headache?: HeadacheEntry;
+  headache?: HeadacheEntry[];
   triggers?: TriggerEntry[];
   medications?: MedicationEntry[];
   comments: string;
